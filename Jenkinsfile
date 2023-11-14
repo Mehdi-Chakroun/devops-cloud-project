@@ -13,7 +13,12 @@ pipeline {
     }
 
     stages {
-        
+
+        stage('Init') {
+            steps {
+                deleteDir()
+            }
+        }
         stage('Checkout') {
             steps {
                 checkout scm
