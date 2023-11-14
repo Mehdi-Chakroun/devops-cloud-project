@@ -2,28 +2,16 @@
 
 pipeline {
     agent any
-
     environment {
         AWS_DEFAULT_REGION = 'eu-west-3'
         WORKER_SERVICE_IMAGE_NAME = 'workerservice:latest'
         VOTE_SERVICE_IMAGE_NAME = 'voteservice:latest'
         RESULT_SERVICE_IMAGE_NAME = 'resultservice:latest'
         EKS_CLUSTER_NAME = ''
-        AWS_ECR_URI = '733141109198.dkr.ecr.eu-west-3.amazonaws.com/resultservice'
+        AWS_ECR_URI = '733141109198.dkr.ecr.eu-west-3.amazonaws.com'
     }
 
     stages {
-
-        stage('Init') {
-            steps {
-                deleteDir()
-            }
-        }
-        stage('Checkout') {
-            steps {
-                checkout scm
-            }
-        }
 
         stage('Test') {
             steps {
