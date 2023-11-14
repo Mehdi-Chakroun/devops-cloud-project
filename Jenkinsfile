@@ -9,6 +9,7 @@ pipeline {
         VOTE_SERVICE_IMAGE_NAME = 'voteservice:latest'
         RESULT_SERVICE_IMAGE_NAME = 'resultservice:latest'
         EKS_CLUSTER_NAME = ''
+        AWS_ECR_URI = '733141109198.dkr.ecr.eu-west-3.amazonaws.com'
     }
 
     stages {
