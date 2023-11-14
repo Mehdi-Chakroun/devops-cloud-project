@@ -26,7 +26,7 @@ pipeline {
                         buildImage "$AWS_ECR_URI/$WORKER_SERVICE_IMAGE_NAME"
                         dockerPush "$AWS_ECR_URI/$WORKER_SERVICE_IMAGE_NAME"
                         deleteLocalImage "$AWS_ECR_URI/$WORKER_SERVICE_IMAGE_NAME"
-                        deleteUntaggedImage
+                        deleteUntaggedImage()
                     }
                 }
                 dir('vote') {
@@ -34,7 +34,7 @@ pipeline {
                         buildImage "$AWS_ECR_URI/$VOTE_SERVICE_IMAGE_NAME"
                         dockerPush "$AWS_ECR_URI/$VOTE_SERVICE_IMAGE_NAME"
                         deleteLocalImage "$AWS_ECR_URI/$VOTE_SERVICE_IMAGE_NAME"
-                        deleteUntaggedImage
+                        deleteUntaggedImage()
                     }
                 }
                 dir('result') {
@@ -42,7 +42,7 @@ pipeline {
                         buildImage "$AWS_ECR_URI/$RESULT_SERVICE_IMAGE_NAME"
                         dockerPush "$AWS_ECR_URI/$RESULT_SERVICE_IMAGE_NAME"
                         deleteLocalImage "$AWS_ECR_URI/$RESULT_SERVICE_IMAGE_NAME"
-                        deleteUntaggedImage
+                        deleteUntaggedImage()
                     }
                 }
                 
