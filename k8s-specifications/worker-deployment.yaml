@@ -2,18 +2,28 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   labels:
-    app: worker
-  name: worker
+    app: workerservice
+  name: workerservice
+  namespace: voteapp
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: worker
+      app: workerservice
   template:
     metadata:
       labels:
-        app: worker
+        app: workerservice
     spec:
       containers:
-      - image: dockersamples/examplevotingapp_worker
-        name: worker
+      - name: workerservice
+        image: dockersamples/examplevotingapp_worker
+        env:
+        - name: REDIS_HOST
+          value: redis
+        - name: REDIS_PORT
+          value: "6379"
+        - name: POSTGRES_HOST
+          value: db
+        - name: POSTGRES_PORT
+          value: "5432"

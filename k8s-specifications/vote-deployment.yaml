@@ -2,21 +2,25 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   labels:
-    app: vote
-  name: vote
+    app: voteservice
+  name: voteservice
+  namespace: voteapp
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: vote
+      app: voteservice
   template:
     metadata:
       labels:
-        app: vote
+        app: voteservice
     spec:
       containers:
       - image: dockersamples/examplevotingapp_vote
-        name: vote
+        name: voteservice
         ports:
         - containerPort: 80
-          name: vote
+        env:
+        - name: REDIS_ADDR
+          value: "redis:6379"
+      

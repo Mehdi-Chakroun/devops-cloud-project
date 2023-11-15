@@ -1,0 +1,19 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: voteapp-ingress
+  namespace: voteapp
+spec:
+  rules:
+  - host: vote.com
+    http:
+      paths:
+      - backend:
+          serviceName: voteservice
+          servicePort: 5000
+  - host: result.vote.com
+    http:
+      paths:
+      - backend:
+          serviceName: resultservice
+          servicePort: 5001

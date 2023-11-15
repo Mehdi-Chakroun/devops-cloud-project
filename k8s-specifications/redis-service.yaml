@@ -4,10 +4,11 @@ metadata:
   labels:
     app: redis
   name: redis
+  namespace: voteapp
 spec:
   type: ClusterIP
   ports:
-  - name: "redis-service"
+  - protocol: TCP
     port: 6379
     targetPort: 6379
   selector:

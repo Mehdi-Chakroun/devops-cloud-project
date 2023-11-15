@@ -4,10 +4,11 @@ metadata:
   labels:
     app: db
   name: db
+  namespace: voteapp
 spec:
   type: ClusterIP
   ports:
-  - name: "db-service"
+  - protocol: TCP
     port: 5432
     targetPort: 5432
   selector:

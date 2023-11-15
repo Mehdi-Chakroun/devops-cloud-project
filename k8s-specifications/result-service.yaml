@@ -2,14 +2,14 @@ apiVersion: v1
 kind: Service
 metadata:
   labels:
-    app: result
-  name: result
+    app: resultservice
+  name: resultservice
+  namespace: voteapp
 spec:
-  type: NodePort
+  type: ClusterIP
   ports:
-  - name: "result-service"
+  - protocol: TCP
     port: 5001
     targetPort: 80
-    nodePort: 31001
   selector:
-    app: result
+    app: resultservice
