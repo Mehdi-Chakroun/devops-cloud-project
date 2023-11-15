@@ -6,7 +6,7 @@ metadata:
   name: resultservice
   namespace: voteapp
 spec:
-  type: ClusterIP
+  type: LoadBalancer
   ports:
   - protocol: TCP
     port: 5001
