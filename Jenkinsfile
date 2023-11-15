@@ -67,6 +67,7 @@ pipeline {
         stage('Deploy') {
             steps {
                 echo "deploying the app...."
+                sh "kubectl apply -f k8s-specifications/"
             }
         }
         
