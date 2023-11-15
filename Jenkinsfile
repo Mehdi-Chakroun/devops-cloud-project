@@ -22,7 +22,7 @@ pipeline {
         stage('Docker Login') {
             steps {
                 script {
-                    awsDockerLogin "AWS_ECR_URI","AWS_DEFAULT_REGION"
+                    awsDockerLogin "$AWS_ECR_URI","$AWS_DEFAULT_REGION"
                 }
             }
         }
