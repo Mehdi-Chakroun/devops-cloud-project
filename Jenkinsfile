@@ -1,7 +1,9 @@
 @Library('jenkins-shared-library')_
 
 pipeline {
+    
     agent any
+
     environment {
         AWS_DEFAULT_REGION = 'eu-west-3'
         WORKER_SERVICE_IMAGE_NAME = 'workerservice:latest'
@@ -27,7 +29,19 @@ pipeline {
             }
         }
 
+        stage('Check Changed Directories') {
+            steps {
+                script {
+                    env.changedDirs = sh(script: 'git diff --name-only HEAD^ HEAD | grep / | cut -d/ -f1 | sort -u', returnStdout: true).trim()
+                    echo "Changed Directories: ${env.changedDirs}"
+                }
+            }
+        }
+
         stage('Build and push Worker Service image...') {
+            when {
+                expression { env.changedDirs.contains('worker') }
+            }
             steps {
                 dir('worker') {
                     script {
@@ -39,7 +53,11 @@ pipeline {
                 }
             }
         }
+
         stage('Build and push Vote Service image...') {
+            when {
+                expression { env.changedDirs.contains('vote') }
+            }
             steps {
                 dir('vote') {
                     script {
@@ -51,7 +69,11 @@ pipeline {
                 }
             }
         }
+
         stage('Build and push Result Service image...') {
+            when {
+                expression { env.changedDirs.contains('result') }
+            }
             steps {
                 dir('result') {
                     script {
@@ -63,13 +85,38 @@ pipeline {
                 }
             }
         }
-        
-        stage('Deploy') {
+
+        stage('Deploy to EKS cluster...') {
             steps {
-                echo "deploying the app...."
-                sh "kubectl apply -f k8s-specifications/"
+                script {
+                    sh 'kubectl apply -f k8s-specifications/'
+                }
+            }
+        }
+        
+        stage('Deploy worker service to EKS...') {
+            when {
+                expression { env.changedDirs.contains('worker') }
+            }
+            steps {
                 sh "kubectl set image deployment/workerservice workerservice=$AWS_ECR_URI/$WORKER_SERVICE_IMAGE_NAME --record"
+            }
+        }
+
+        stage('Deploy vote service to EKS...') {
+            when {
+                expression { env.changedDirs.contains('vote') }
+            }
+            steps {
                 sh "kubectl set image deployment/voteservice voteservice=$AWS_ECR_URI/$VOTE_SERVICE_IMAGE_NAME --record"
+            }
+        }
+
+        stage('Deploy result service to EKS...') {
+            when {
+                expression { env.changedDirs.contains('result') }
+            }
+            steps {
                 sh "kubectl set image deployment/resultservice resultservice=$AWS_ECR_URI/$RESULT_SERVICE_IMAGE_NAME --record"
             }
         }
