@@ -102,7 +102,7 @@ pipeline {
                 expression { env.changedDirs.contains('worker') }
             }
             steps {
-                sh "kubectl set image deployment/workerservice workerservice=$AWS_ECR_URI/$WORKER_SERVICE_IMAGE_NAME:dummy --record"
+                sh "kubectl rollout restart deployment workerservice"
             }
         }
 
@@ -111,7 +111,7 @@ pipeline {
                 expression { env.changedDirs.contains('vote') }
             }
             steps {
-                sh "kubectl set image deployment/voteservice voteservice=$AWS_ECR_URI/$VOTE_SERVICE_IMAGE_NAME:dummy --record"
+                sh "kubectl rollout restart deployment voteservice"
             }
         }
 
@@ -120,7 +120,7 @@ pipeline {
                 expression { env.changedDirs.contains('result') }
             }
             steps {
-                sh "kubectl set image deployment/resultservice resultservice=$AWS_ECR_URI/$RESULT_SERVICE_IMAGE_NAME:dummy --record"
+                sh "kubectl rollout restart deployment resultservice"
             }
         }
         
