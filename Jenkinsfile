@@ -19,6 +19,14 @@ pipeline {
             }
         }
 
+        stage('Docker Login') {
+            steps {
+                script {
+                    awsDockerLogin "AWS_ECR_URI" "AWS_DEFAULT_REGION"
+                }
+            }
+        }
+
         stage('Build and push image') {
             steps {
                 dir('worker') {
