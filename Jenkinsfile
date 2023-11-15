@@ -26,6 +26,8 @@ pipeline {
                         buildImage "$AWS_ECR_URI/$WORKER_SERVICE_IMAGE_NAME"
                         dockerPush "$AWS_ECR_URI/$WORKER_SERVICE_IMAGE_NAME"
                         deleteLocalImage "$AWS_ECR_URI/$WORKER_SERVICE_IMAGE_NAME"
+                        echo "sleeping for 10 seconds"
+                        sh 'sleep 10'
                         deleteUntaggedImage()
                     }
                 }
@@ -34,6 +36,8 @@ pipeline {
                         buildImage "$AWS_ECR_URI/$VOTE_SERVICE_IMAGE_NAME"
                         dockerPush "$AWS_ECR_URI/$VOTE_SERVICE_IMAGE_NAME"
                         deleteLocalImage "$AWS_ECR_URI/$VOTE_SERVICE_IMAGE_NAME"
+                        echo "sleeping for 10 seconds"
+                        sh 'sleep 10'
                         deleteUntaggedImage()
                     }
                 }
@@ -42,6 +46,8 @@ pipeline {
                         buildImage "$AWS_ECR_URI/$RESULT_SERVICE_IMAGE_NAME"
                         dockerPush "$AWS_ECR_URI/$RESULT_SERVICE_IMAGE_NAME"
                         deleteLocalImage "$AWS_ECR_URI/$RESULT_SERVICE_IMAGE_NAME"
+                        echo "sleeping for 10 seconds"
+                        sh 'sleep 10'
                         deleteUntaggedImage()
                     }
                 }
