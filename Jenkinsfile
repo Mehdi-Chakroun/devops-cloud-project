@@ -68,6 +68,9 @@ pipeline {
             steps {
                 echo "deploying the app...."
                 sh "kubectl apply -f k8s-specifications/"
+                sh "kubectl set image deployment/workerservice workerservice=$AWS_ECR_URI/$WORKER_SERVICE_IMAGE_NAME --record"
+                sh "kubectl set image deployment/voteservice voteservice=$AWS_ECR_URI/$VOTE_SERVICE_IMAGE_NAME --record"
+                sh "kubectl set image deployment/resultservice resultservice=$AWS_ECR_URI/$RESULT_SERVICE_IMAGE_NAME --record"
             }
         }
         
