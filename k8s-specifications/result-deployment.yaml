@@ -15,9 +15,12 @@ spec:
       labels:
         app: resultservice
     spec:
+      imagePullSecrets:
+      - name: aws-registry-key
       containers:
-      - image: dockersamples/examplevotingapp_result
-        name: resultservice
+      - name: resultservice
+        image: 733141109198.dkr.ecr.eu-west-3.amazonaws.com/resultservice:latest
+        imagePullPolicy: Always
         ports:
         - containerPort: 80
           name: resultservice

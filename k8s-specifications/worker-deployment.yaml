@@ -15,9 +15,12 @@ spec:
       labels:
         app: workerservice
     spec:
+      imagePullSecrets:
+      - name: aws-registry-key
       containers:
       - name: workerservice
-        image: dockersamples/examplevotingapp_worker
+        image: 733141109198.dkr.ecr.eu-west-3.amazonaws.com/workerservice:latest
+        imagePullPolicy: Always
         env:
         - name: REDIS_HOST
           value: redis
