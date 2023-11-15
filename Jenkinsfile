@@ -28,7 +28,7 @@ pipeline {
                         deleteLocalImage "$AWS_ECR_URI/$WORKER_SERVICE_IMAGE_NAME"
                         echo "sleeping for 10 seconds"
                         sh 'sleep 10'
-                        deleteUntaggedImage()
+                        deleteUntaggedImage "workerservice"
                     }
                 }
                 dir('vote') {
@@ -38,7 +38,7 @@ pipeline {
                         deleteLocalImage "$AWS_ECR_URI/$VOTE_SERVICE_IMAGE_NAME"
                         echo "sleeping for 10 seconds"
                         sh 'sleep 10'
-                        deleteUntaggedImage()
+                        deleteUntaggedImage "voteservice"
                     }
                 }
                 dir('result') {
@@ -48,7 +48,7 @@ pipeline {
                         deleteLocalImage "$AWS_ECR_URI/$RESULT_SERVICE_IMAGE_NAME"
                         echo "sleeping for 10 seconds"
                         sh 'sleep 10'
-                        deleteUntaggedImage()
+                        deleteUntaggedImage "resultservice"
                     }
                 }
                 
