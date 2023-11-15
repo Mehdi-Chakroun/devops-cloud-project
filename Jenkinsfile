@@ -1,7 +1,7 @@
 @Library('jenkins-shared-library')_
 
 pipeline {
-    
+
     agent any
 
     environment {
@@ -87,6 +87,9 @@ pipeline {
         }
 
         stage('Deploy to EKS cluster...') {
+            when {
+                expression { env.changedDirs.contains('k8s-specifications') }
+            }
             steps {
                 script {
                     sh 'kubectl apply -f k8s-specifications/'
@@ -99,7 +102,7 @@ pipeline {
                 expression { env.changedDirs.contains('worker') }
             }
             steps {
-                sh "kubectl set image deployment/workerservice workerservice=$AWS_ECR_URI/$WORKER_SERVICE_IMAGE_NAME --record"
+                sh "kubectl set image deployment/workerservice workerservice=$AWS_ECR_URI/$WORKER_SERVICE_IMAGE_NAME:dummy --record"
             }
         }
 
@@ -108,7 +111,7 @@ pipeline {
                 expression { env.changedDirs.contains('vote') }
             }
             steps {
-                sh "kubectl set image deployment/voteservice voteservice=$AWS_ECR_URI/$VOTE_SERVICE_IMAGE_NAME --record"
+                sh "kubectl set image deployment/voteservice voteservice=$AWS_ECR_URI/$VOTE_SERVICE_IMAGE_NAME:dummy --record"
             }
         }
 
@@ -117,7 +120,7 @@ pipeline {
                 expression { env.changedDirs.contains('result') }
             }
             steps {
-                sh "kubectl set image deployment/resultservice resultservice=$AWS_ECR_URI/$RESULT_SERVICE_IMAGE_NAME --record"
+                sh "kubectl set image deployment/resultservice resultservice=$AWS_ECR_URI/$RESULT_SERVICE_IMAGE_NAME:dummy --record"
             }
         }
         
